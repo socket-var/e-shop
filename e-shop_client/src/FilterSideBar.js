@@ -1,0 +1,43 @@
+import React from 'react'
+import "./FilterSideBar.css"
+
+class FilterSideBar extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {}
+    }
+
+    render() {
+        return (
+            <aside>
+                <label for="category-picker">
+                    Category:
+                    <select id="category-picker">
+                        <option value="">All</option>
+                        <option value="">Foo</option>
+                        <option value="">Bar</option>
+                    </select>
+                </label>
+                
+
+                <label for="price-range">
+                    Price:
+                    <input type="range" id="price-range" />
+                </label>
+
+                <label for="sort-by">
+                    Sort By:
+                    <select id="sort-by">
+                        <option value="">Relevance</option>
+                        <option value="">Rating</option>
+                        <option value="">Foo</option>
+                    </select>
+                </label>
+                
+
+            </aside>
+        );
+    }
+}
+
+export default FilterSideBar

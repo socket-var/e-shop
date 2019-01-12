@@ -29,7 +29,7 @@
 }
 
 .App-header nav ul a:hover {
-  color: blue;
+  background: rgb(139, 138, 138);
 }
 
 @keyframes App-logo-spin {

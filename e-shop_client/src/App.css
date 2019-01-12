@@ -1,2 +1,7 @@
 .App {
 }
+
+
+.body-container {
+    display:flex;
+}
