@@ -1,0 +1,42 @@
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 3em;
+}
+
+.App-header nav {
+  background-color: #282c34;
+  display: flex;
+  color: white;
+}
+
+.App-header nav > * {
+  flex:1
+}
+
+.App-header nav ul {
+  display: flex;
+  flex: 7;
+}
+
+.App-header nav ul li {
+  list-style-type: none;
+  flex:1;
+}
+.App-header nav ul a {
+  color: white;
+  text-decoration: none;
+}
+
+.App-header nav ul a:hover {
+  color: blue;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
