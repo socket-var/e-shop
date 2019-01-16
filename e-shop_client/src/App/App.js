@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import NavBar from "./NavBar"
-import FetchDemo from "./FetchDemo"
-import FilterSideBar from "./FilterSideBar"
+import NavBar from "../NavBar/NavBar"
+import FetchDemo from "../FetchDemo/FetchDemo"
+import FilterSideBar from "../FilterSideBar/FilterSideBar"
 
 class App extends Component {
   render() {
