@@ -5,10 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require("dotenv").config();
 
-require("./rest_api/models/auth");
-
 const authRoutes = require("./rest_api/routes/auth_route");
 const apiRoutes = require("./rest_api/routes/foo");
+const dataRoutes = require("./rest_api/routes/data_route");
 
 
 var app = express();
@@ -25,7 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/auth', authRoutes)
+app.use('/data', dataRoutes);
 app.use('/api', apiRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

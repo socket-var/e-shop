@@ -10,7 +10,7 @@ class FilterSideBar extends React.Component {
     render() {
         return (
             <aside>
-                <label for="category-picker">
+                <label htmlFor="category-picker">
                     Category:
                     <select id="category-picker">
                         <option value="">All</option>
@@ -20,12 +20,12 @@ class FilterSideBar extends React.Component {
                 </label>
                 
 
-                <label for="price-range">
+                <label htmlFor="price-range">
                     Price:
                     <input type="range" id="price-range" />
                 </label>
 
-                <label for="sort-by">
+                <label htmlFor="sort-by">
                     Sort By:
                     <select id="sort-by">
                         <option value="">Relevance</option>

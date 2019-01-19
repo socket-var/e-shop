@@ -1,0 +1,11 @@
+.catalog-container {
+  display:flex;
+}
+
+.filter-aside {
+  flex: 1 1 300px;
+}
+
+.product-card {
+  flex: 3 3 300px;
+}

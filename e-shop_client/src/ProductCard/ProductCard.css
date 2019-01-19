@@ -1,0 +1,9 @@
+.product-card {
+  border-radius: 7px;
+  background: #e7e3e3;
+}
+
+.product-card > img {
+  width: 50%;
+  height: 50%;
+}

@@ -1,40 +1,25 @@
-import React, { Component } from 'react';
-import axios from "axios";
+import React from 'react';
+import "./ProductCard.css"
 
-export default class ProductCard extends Component {
-  
-  constructor(props) {
-    super(props)
-  
-    this.state = {
-      data: "",
-    };
+const ProductCard = (props) => {
+  if(!props.productData) {
+    return <div>"Error: Data not received"</div>
   }
-  
-  componentWillMount() {
-    axios.get("/data")
-        .then( (response) => {
-          console.log(response);
-          this.setState({data: response.data})
-        })
-        .catch((error) => {
-          console.log(error)
-          this.setState({data: "Error: Cannot retrieve text"})
-        });
-  }
-
-  render() {
+  else {
     return (
-      <div>
-        {
-          !this.state.data ? "Error: Data not received" : (
-            <div>
-            <p>{this.state.data.product_name}</p>
-            <img src={this.state.data.image[0]} alt="flipkart"/>
-            </div>
-          )
-        }
+      <div className="product-card">
+        <img src={props.productData.image[0]} alt="flipkart"/>
+          <p>{props.productData.product_name}</p>
+          <p>{props.productData.retail_price}</p>
+          {
+            props.productData.retail_price !== props.productData.discounted_price ?
+            <p>{props.productData.discounted_price}</p> : null
+          }
+          
       </div>
-    )
+    );
   }
+  
 }
+
+export default ProductCard
