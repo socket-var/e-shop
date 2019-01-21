@@ -3,11 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require("mongoose");
+
+mongoose.set('debug', true);
+
 require("dotenv").config();
 
 const authRoutes = require("./rest_api/routes/auth_route");
 const apiRoutes = require("./rest_api/routes/foo");
 const dataRoutes = require("./rest_api/routes/data_route");
+
 
 
 var app = express();
