@@ -9,7 +9,7 @@ class FilterSideBar extends React.Component {
 
     render() {
         return (
-            <aside>
+            <aside className="filter-aside">
                 <label htmlFor="category-picker">
                     Category:
                     <select id="category-picker">

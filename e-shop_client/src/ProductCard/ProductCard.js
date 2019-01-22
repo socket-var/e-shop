@@ -8,16 +8,17 @@ const ProductCard = props => {
     return (
       <div className="product-card">
         {props.productData.image ? (
-          <img src={props.productData.image[0]} alt="flipkart" />
+          <img src={props.productData.image[0]} alt="flipkart"/>
         ) : (
           ""
         )}
+        
 
-        <p>{props.productData.product_name}</p>
-        <p>{props.productData.retail_price}</p>
+        <div>{props.productData.product_name}</div>
+        <div>{props.productData.retail_price}</div>
         {props.productData.retail_price !==
         props.productData.discounted_price ? (
-          <p>{props.productData.discounted_price}</p>
+          <div>{props.productData.discounted_price}</div>
         ) : null}
       </div>
     );

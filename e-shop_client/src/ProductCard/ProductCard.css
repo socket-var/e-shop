@@ -1,9 +1,14 @@
 .product-card {
   border-radius: 7px;
-  background: #e7e3e3;
+  background: #fff;
+  margin: 1% 1%;
 }
-
-.product-card > img {
-  width: 50%;
-  height: 50%;
+.product-card > * {
+  margin:0 auto;
+  width:90%;
+}
+.product-card img {
+  display: block;
+  height: 50vh;
+  object-fit: contain;
 }

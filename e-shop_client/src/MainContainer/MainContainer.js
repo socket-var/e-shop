@@ -10,7 +10,7 @@ export default class MainContainer extends Component {
 
     this.state = {
       data: [],
-      recordsPerPage: 20,
+      recordsPerPage: 21,
       buttons: [1, 2, 3, 4],
       numRecords: 0,
       lastKnownId: null,
@@ -58,13 +58,14 @@ export default class MainContainer extends Component {
 
   onSliderClick(evt) {
     // get the current page and go to before page
+    const restButtons = this.state.buttons.splice(1)
     if (evt.target.value === "<<") {
       this.setState({
-        buttons: this.state.buttons.map(num => (num === 1 ? num : num - 1))
+        buttons: [this.state.buttons[0], ...restButtons.map(num => num - 1)]
       });
     } else {
       this.setState({
-        buttons: this.state.buttons.map(num => (num === 1 ? num : num + 1))
+        buttons: [this.state.buttons[0], ...restButtons.map(num => num + 1)]
       });
     }
   }

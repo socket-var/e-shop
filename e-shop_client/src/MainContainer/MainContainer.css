@@ -1,16 +1,16 @@
 .main-container {
   display:flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  max-width: 100vw;
+  flex: 1 1 80%;
 }
 
 
 .product-container {
   display:flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
-.product-container > * {
-  flex: 1 1 300px;
+.product-container > .product-card {
+  flex: 0 0 30%; 
 }

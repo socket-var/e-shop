@@ -1,4 +1,6 @@
-aside {
+
+.filter-aside {
     display: flex;
     flex-direction: column;
+    flex: 1 1 20%;
 }

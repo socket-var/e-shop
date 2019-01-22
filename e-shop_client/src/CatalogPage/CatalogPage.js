@@ -7,8 +7,8 @@ export default class CatalogPage extends Component {
   render() {
     return (
       <div className="catalog-container">
-        <FilterSideBar className="filter-aside"/>
-        <MainContainer  className="product-container"/>
+        <FilterSideBar />
+        <MainContainer />
       </div>
     )
   }
