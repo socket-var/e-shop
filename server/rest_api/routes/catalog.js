@@ -1,9 +1,7 @@
 const express = require("express");
 const dataRouter = express.Router();
 
-// focus on going back and forth, worry about data saving later
-
-const Product = require("../models/data_model");
+const Product = require("../models/catalog");
 
 function findDocs(limitRecords, lastKnownId) {
   if(lastKnownId) {

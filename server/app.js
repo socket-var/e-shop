@@ -9,10 +9,8 @@ mongoose.set('debug', true);
 
 require("dotenv").config();
 
-const authRoutes = require("./rest_api/routes/auth_route");
-const apiRoutes = require("./rest_api/routes/foo");
-const dataRoutes = require("./rest_api/routes/data_route");
-
+const authRoutes = require("./rest_api/routes/auth");
+const dataRoutes = require("./rest_api/routes/catalog");
 
 
 var app = express();
@@ -30,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', authRoutes)
 app.use('/data', dataRoutes);
-app.use('/api', apiRoutes);
 
 
 // catch 404 and forward to error handler

@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-require("./auth_db_connect");
+const dbURL = `mongodb://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.AUTH_DB_NAME}`;
+
+
+require("./db_connect")(dbURL);
 
 const userSchema = new mongoose.Schema({
     email: String,
