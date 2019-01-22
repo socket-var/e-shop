@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import "./AuthForm.css"
+import "./AuthPage.css"
 import axios from "axios"
 
 
-export default class AuthForm extends Component {
+export default class AuthPage extends Component {
   
   constructor(props) {
     super(props)

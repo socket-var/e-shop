@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "./ProductCard/ProductCard";
 import "./MainContainer.css";
 import axios from "axios";
-import PaginationFooter from "../PaginationFooter/PaginationFooter";
+import PaginationFooter from "./PaginationFooter/PaginationFooter";
 
 export default class MainContainer extends Component {
   constructor(props) {
@@ -117,7 +117,6 @@ export default class MainContainer extends Component {
         <PaginationFooter
           buttons={this.state.buttons}
           recordsPerPage={this.state.recordsPerPage}
-          className="pagination"
           lastPageNumber={this.state.lastPageNumber}
           onPaginationButtonClick={this.onPaginationButtonClick}
           onSliderClick={this.onSliderClick}

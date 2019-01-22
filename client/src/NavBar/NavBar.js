@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../logo.svg';
 import "./NavBar.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 
 const NavBar = () => {

@@ -24,7 +24,7 @@ const PaginationFooter = props => {
     </button>
   );
 
-  return <div>{buttons}</div>;
+  return <div className="pagination">{buttons}</div>;
 };
 
 export default PaginationFooter;
