@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "cd e-shop_client && npm start",
-    "server": "cd e-shop_server && npm start",
-    "dev-server": "cd e-shop_server && npm run dev-start",
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "dev-server": "cd server && npm run dev-start",
     "start": "concurrently --kill-others \"npm run dev-server\" \"npm run client\""
   },
   "repository": {
