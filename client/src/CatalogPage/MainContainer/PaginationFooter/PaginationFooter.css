@@ -1,0 +1,24 @@
+
+
+div.pagination button {
+  all: unset;
+  display: inline-block;
+  background: #f8f9fa;
+  border-radius: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  margin: 0 5px;
+  height: 90%;
+}
+
+div.pagination button:hover {
+  background: #fff;
+  
+}
+
+div.pagination button.active {
+  /* border: 3px solid rgb(226, 106, 59); */
+  background: #000;
+  color: #fff;
+}

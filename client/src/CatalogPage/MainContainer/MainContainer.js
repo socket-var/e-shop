@@ -9,93 +9,178 @@ export default class MainContainer extends Component {
     super(props);
 
     this.state = {
+      loadingSplash: true,
+      errorText: "",
       data: [],
       recordsPerPage: 21,
       buttons: [1, 2, 3, 4],
       numRecords: 0,
+      numberOfPages: 0,
       lastKnownId: null,
-      lastPageNumber: 0,
-      activePageNumber: 1
+      activePageNumber: 1,
+      activeButton: 0
     };
 
     this.state.limitRecords =
       this.state.recordsPerPage * this.state.buttons.length;
 
-    this.state.numberOfPages = Math.ceil(
-      this.state.numRecords / this.state.recordsPerPage
-    );
-
-    this.onSliderClick = this.onSliderClick.bind(this);
-    this.onPaginationButtonClick = this.onPaginationButtonClick.bind(this);
+    this.onPaginationClick = this.onPaginationClick.bind(this);
+    this.getNewData = this.getNewData.bind(this);
+    this.getOrUpdateData = this.getOrUpdateData.bind(this);
   }
-  
-  onPaginationButtonClick(evt) {
-    const buttonEvt = evt.target.value
-    const start = (buttonEvt - 1) * this.state.recordsPerPage;
 
+  getNewData(buttonVal, limitRecords) {
+    return axios
+      .post("/data/catalog", {
+        limitRecords,
+        lastKnownId: this.state.lastKnownId
+      })
+      .then(response => {
+        this.setState({
+          data: [...this.state.data, ...response.data.records],
+          lastKnownId: response.data.lastKnownId,
+          activePageNumber: buttonVal
+        });
+      });
+  }
+
+  getOrUpdateData(start, buttonVal) {
+    console.log(start, buttonVal);
     if (this.state.data) {
-
       if (start >= this.state.data.length) {
-        const lastPageNumber =
-          this.state.data.length / this.state.recordsPerPage;
+        console.log("Need new data");
+
         const limitRecords =
-          (buttonEvt - lastPageNumber) * this.state.recordsPerPage;
+          this.state.data.length - buttonVal * this.state.recordsPerPage;
 
         // get new data using lastknownid and limitRecords
-        axios
-          .post("/data/catalog", {
-            limitRecords,
-            lastKnownId: this.state.lastKnownId
-          })
-          .then((response) => {
-            this.setState({ data: [...this.state.data, ...response.data.records], lastKnownId: response.data.lastKnownId, activePageNumber: buttonEvt });
-          });
+        return this.getNewData(buttonVal, limitRecords);
       } else {
-        this.setState({activePageNumber: buttonEvt})
+        console.log("cached data");
+        return Promise.resolve(this.setState({ activePageNumber: buttonVal }));
       }
     }
   }
 
-  onSliderClick(evt) {
-    // get the current page and go to before page
-    const restButtons = this.state.buttons.splice(1)
+  onPaginationClick(evt) {
+    // for number buttons
+    let buttonVal;
+    let start;
+    let resolveFunc = function() {};
+    let activeButton;
+    let restButtons = Object.assign([], this.state.buttons).splice(1);
+
+    // if previous button is pressed
     if (evt.target.value === "<<") {
-      this.setState({
-        buttons: [this.state.buttons[0], ...restButtons.map(num => num - 1)]
-      });
-    } else {
-      this.setState({
-        buttons: [this.state.buttons[0], ...restButtons.map(num => num + 1)]
-      });
+      buttonVal = this.state.activePageNumber - 1;
+
+      activeButton = this.state.activeButton - 1;
+
+      start = (buttonVal - 1) * this.state.recordsPerPage;
+
+      resolveFunc = () => {
+        if (this.state.activeButton === 1 && this.state.buttons[0] !== 2) {
+          this.setState({
+            // activeButton,
+            buttons: [this.state.buttons[0], ...restButtons.map(num => num - 1)]
+          });
+        } else {
+          this.setState({ activeButton });
+        }
+      };
     }
+    // if next button is pressed
+    else if (evt.target.value === ">>") {
+      buttonVal = this.state.activePageNumber + 1;
+
+      activeButton = this.state.activeButton + 1;
+
+      start = (buttonVal - 1) * this.state.recordsPerPage;
+
+      resolveFunc = () => {
+        if (this.state.activeButton === 3) {
+          this.setState({
+            // activeButton,
+            buttons: [this.state.buttons[0], ...restButtons.map(num => num + 1)]
+          });
+        } else {
+          this.setState({ activeButton });
+        }
+      };
+    }
+    // if number button is pressed
+    else {
+      buttonVal = parseInt(evt.target.value);
+
+      activeButton = parseInt(evt.target.dataset.key);
+
+      start = (buttonVal - 1) * this.state.recordsPerPage
+
+      resolveFunc = () => {
+        if (buttonVal === 1) {
+          this.setState({ buttons: [1, 2, 3, 4] });
+        } else if (buttonVal === this.state.numberOfPages) {
+          const buttons = [];
+          for (
+            let index = 0;
+            index < this.state.numberOfPages.length;
+            index++
+          ) {
+            const element = this.state.numberOfPages[index];
+            buttons.push(element);
+          }
+          this.setState({ buttons });
+        }
+
+        if (activeButton === 3) {
+          this.setState({
+            activeButton,
+            buttons: [this.state.buttons[0], ...restButtons.map(num => num + 1)]
+          });
+        } else if (activeButton === 1 && this.state.buttons[1] !== 2) {
+          this.setState({
+            activeButton,
+            buttons: [this.state.buttons[0], ...restButtons.map(num => num - 1)]
+          });
+        } else {
+          this.setState({ activeButton });
+        }
+      };
+    }
+
+    this.getOrUpdateData(start, buttonVal).then(resolveFunc);
   }
 
   componentWillMount() {
-    axios.get("/data/catalog_count").then(response => {
-      this.setState({ numRecords: response.data.count });
-    });
-    axios
-      .post("/data/catalog", {
+    Promise.all([
+      axios.get("/data/catalog_count"),
+      axios.post("/data/catalog", {
         limitRecords: this.state.limitRecords
       })
+    ])
       .then(response => {
-        this.setState(function(state, props) {
-          return {
-            data: response.data.records,
-            lastKnownId: response.data.lastKnownId,
-            lastPageNumber: Math.ceil(state.numRecords / state.recordsPerPage)
-          };
+        const [response1, response2] = response;
+        this.setState({
+          numRecords: response1.data.count,
+          numberOfPages: Math.ceil(
+            response1.data.count / this.state.recordsPerPage
+          ),
+          data: response2.data.records,
+          lastKnownId: response2.data.lastKnownId
         });
       })
+      .then(() => this.setState({ loadingSplash: false }))
       .catch(error => {
-        this.setState({ data: "Error: Cannot retrieve text" });
+        this.setState({
+          errorText: "Error: Cannot retrieve data from the server, try again"
+        });
       });
   }
 
   render() {
     const items = [];
-    const start = (this.state.activePageNumber-1) * this.state.recordsPerPage
-    console.log(start, this.state.recordsPerPage, this.state.data.length)
+    const start = (this.state.activePageNumber - 1) * this.state.recordsPerPage;
+    // console.log(start, this.state.recordsPerPage, this.state.data.length)
     for (
       let index = start;
       index < start + this.state.recordsPerPage;
@@ -104,24 +189,41 @@ export default class MainContainer extends Component {
       items.push(<ProductCard productData={this.state.data[index]} />);
     }
 
-    return (
-      <div className="main-container">
-        <div>{this.state.numRecords} results found</div>
-        <div className="product-container">
-          {this.state.data.length === 0 ? (
-            <div>Fetching the data...</div>
-          ) : (
-            items
-          )}
+    let content;
+    if (this.state.loadingSplash) {
+      content = (
+        <div className="main-container">
+          <div>Hang in there while the data is loading...</div>
         </div>
-        <PaginationFooter
-          buttons={this.state.buttons}
-          recordsPerPage={this.state.recordsPerPage}
-          lastPageNumber={this.state.lastPageNumber}
-          onPaginationButtonClick={this.onPaginationButtonClick}
-          onSliderClick={this.onSliderClick}
-        />
-      </div>
-    );
+      );
+    } else if (this.state.errorText) {
+      content = (
+        <div className="main-container">
+          <div>{this.state.errorText}</div>
+        </div>
+      );
+    } else {
+      content = (
+        <div className="main-container">
+          <div>{this.state.numRecords} results found</div>
+          <div className="product-container">
+            {this.state.data.length === 0 ? (
+              <div>Fetching the data...</div>
+            ) : (
+              items
+            )}
+          </div>
+          <PaginationFooter
+            buttons={this.state.buttons}
+            recordsPerPage={this.state.recordsPerPage}
+            lastPageNumber={this.state.numberOfPages}
+            onPaginationClick={this.onPaginationClick}
+            activeButton={this.state.activeButton}
+          />
+        </div>
+      );
+    }
+
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
