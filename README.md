@@ -4,4 +4,5 @@ This is a work-in-progress project that has been created to learn how to efficie
 
 Some of the unique features of this project are:
 - It uses real data from flipkart - checkout the data folder in the root of the repository.
+- Supports pagination
 - The concept of recommender systems would be integrated in the future.
